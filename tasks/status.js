@@ -6,19 +6,20 @@ var LocalStorage = require('node-localstorage').LocalStorage;
 localStorage = new LocalStorage('./scratch');
 
 
+const OTRS_COMPLETED_ID = 11;
 const TRANSITION_ID = 411;
 const AUTH_USERNAME = 'quytruong1991@gmail.com';
 const AUTH_PASSWORD = 'dino1234';
 var check_change = function () {
     const date = new Date();
-    console.log('Every 5 second:', date);
+    console.log('Every 2 minutes:', date);
 
     last_status_checked = localStorage.getItem('last_status_checked');
     if (last_status_checked == null) return;
 
     sql_query = mysql.format("SELECT ticket.id, dynamic_field_value.value_text " +
         "FROM ticket JOIN dynamic_field_value ON dynamic_field_value.object_id = ticket.id " +
-        "WHERE ticket.change_time > ? AND ticket.ticket_state_id = ?", [dateFormat(last_status_checked, "yyyy-mm-dd h:MM:ss"), 11]);
+        "WHERE ticket.change_time > ? AND ticket.ticket_state_id = ?", [dateFormat(last_status_checked, "yyyy-mm-dd h:MM:ss"), OTRS_COMPLETED_ID]);
     console.log(sql_query);
     db.query(sql_query,function(err, rows, fields) {
         if (err) throw err;

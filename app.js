@@ -27,7 +27,7 @@ app.use('/users', usersRouter);
 
 // Cron jobs
 console.log('Job installing');
-const job = new CronJob('* */2 * * * *', function() {
+const job = new CronJob('*/2 * * * *', function() {
 
   statusTask.check_change();
 });
